@@ -6,24 +6,22 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
-    {
-      "src": "/client.js",
-      "dest": "/public/client.js"
-    },
-    {
-      "src": "/style.css",
-      "dest": "/public/style.css"
-    },
-    {
-      "src": "/",
-      "dest": "server.js"
-    }
-  ],
   "rewrites": [
+    {
+      "source": "/client.js",
+      "destination": "/public/client.js"
+    },
+    {
+      "source": "/style.css",
+      "destination": "/public/style.css"
+    },
     {
       "source": "/socket.io/(.*)",
       "destination": "server.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "server.js"
     }
- ]
+  ]
 }
