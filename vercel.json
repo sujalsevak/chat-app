@@ -2,26 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "server.js",
+      "src": "api/server.js",
       "use": "@vercel/node"
     }
   ],
   "rewrites": [
     {
-      "source": "/client.js",
-      "destination": "/public/client.js"
-    },
-    {
-      "source": "/style.css",
-      "destination": "/public/style.css"
-    },
-    {
-      "source": "/socket.io/(.*)",
-      "destination": "server.js"
+      "source": "/(.*)\\.(css|js|html|ico|png|svg|jpg)",
+      "destination": "/public/$1.$2"
     },
     {
       "source": "/(.*)",
-      "destination": "server.js"
+      "destination": "/api/server.js"
     }
   ]
 }
