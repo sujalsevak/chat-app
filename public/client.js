@@ -1,7 +1,5 @@
-// client.js
-// --- START OF UPDATED LINE ---
+// public/client.js
 const socket = io({ path: '/socket.io/' }); // EXPLICITLY set the path for Vercel routing
-// --- END OF UPDATED LINE ---
 
 // DOM
 const joinBtn = document.getElementById("joinBtn");
