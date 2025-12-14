@@ -25,5 +25,5 @@
       "source": "/socket.io/(.*)",
       "destination": "server.js"
     }
-  ]
+ ]
 }
