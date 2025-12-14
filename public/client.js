@@ -1,5 +1,5 @@
 // client.js
-const socket = io(); // connects to same origin
+const socket = io(); // connects to same origin (Correct for Vercel deployment)
 
 // DOM
 const joinBtn = document.getElementById("joinBtn");
@@ -34,14 +34,18 @@ joinBtn.addEventListener("click", () => {
   const username = usernameInput.value.trim();
   const room = roomInput.value.trim();
   if (!username || !room) return alert("username & room required");
+  
+  // Emit the join event to the server and wait for acknowledgement (ack)
   socket.emit("join", { username, room }, (res) => {
     if (res && res.status === "ok") {
+      // SUCCESS: Hide join form and show chat UI
       roomNameEl.textContent = room;
       chatSection.classList.remove("hidden");
       document.querySelector(".join").classList.add("hidden");
       appendMessage({ system: true, text: `You joined ${room}`, time: new Date().toISOString() });
       updateUserList(res.users || []);
     } else {
+      // ERROR: Show server message if joining failed
       alert(res?.message || "Failed to join");
     }
   });
@@ -52,9 +56,10 @@ msgForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const text = msgInput.value.trim();
   if (!text) return;
+  
   socket.emit("message", { text }, (ack) => {
     if (ack && ack.status === "ok") {
-      // optional, message will be broadcast back by server so no need to append here
+      // Message sent successfully
       msgInput.value = "";
     } else {
       console.warn("message ack:", ack);
@@ -65,6 +70,7 @@ msgForm.addEventListener("submit", (e) => {
 // leave
 leaveBtn.addEventListener("click", () => {
   socket.emit("leave", (res) => {
+    // UI reset after leaving
     chatSection.classList.add("hidden");
     document.querySelector(".join").classList.remove("hidden");
     messagesEl.innerHTML = "";
